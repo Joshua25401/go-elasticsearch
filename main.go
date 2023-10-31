@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"elasticsearch-learn/elastic"
+	"elasticsearch-learn/pkg/elastic"
 	"log"
 	"os"
 
