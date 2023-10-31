@@ -1,8 +1,9 @@
-package elasticsearch
+package elastic
 
 import (
 	"context"
 	"elasticsearch-learn/model"
+	"fmt"
 	"log"
 
 	"github.com/elastic/go-elasticsearch/v8"
@@ -43,4 +44,12 @@ func (ec *elasticSearch) UpdateData(ctx context.Context, updatedUser model.User)
 
 func (ec *elasticSearch) DeleteData(ctx context.Context, deleteTarget model.User) error {
 	return nil
+}
+
+func (ec *elasticSearch) SearchEngineInfo(ctx context.Context) {
+	res, err := ec.client.Info(ec.client.Info.WithContext(ctx))
+	if err != nil {
+		log.Fatal("unable to get elasticsearch information because of ", err)
+	}
+	fmt.Println(res)
 }

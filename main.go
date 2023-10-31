@@ -1,40 +1,25 @@
 package main
 
 import (
-	"elasticsearch-learn/model"
-	"fmt"
-	"time"
+	"context"
+	"elasticsearch-learn/elastic"
+	"log"
+	"os"
+
+	"github.com/elastic/go-elasticsearch/v8"
 )
 
 func main() {
-	// ec := elasticsearch.NewElasticClient(elasticsearch.ElasticDependencies{
-
-	// })
-
-	// sampleDOB, err := time.Parse(time.DateOnly, "2001-04-25")
-	// if err != nil {
-	// 	log.Fatal("unable to parse day of birth because of ", err)
-	// }
-
-	// err = ec.InsertData(context.Background(), model.User{
-	// 	FirstName:  "Joshua",
-	// 	MiddleName: "Ryandafres",
-	// 	LastName:   "Pangaribuan",
-	// 	Age:        22,
-	// 	DayOfBirth: sampleDOB,
-	// 	Address:    "Jl. Dr. Susilo IIC, No.61, Jakarta Barat",
-	// })
-
-	// fmt.Println(ec)
-
-	joshua := model.User{
-		FirstName:  "Joshua",
-		MiddleName: "Ryandafres",
-		LastName:   "Pangaribuan",
-		Age:        20,
-		DayOfBirth: time.Now(),
-		Address:    "Jl. Dr. Susilo IIC, No. 61. Jakarta Barat",
+	certificate, err := os.ReadFile("http_ca.crt")
+	if err != nil {
+		log.Fatal("unable to read http certificate because of ", err)
 	}
+	ec := elastic.NewElasticClient(elasticsearch.Config{
+		Addresses: []string{"https://127.0.0.1:9200"},
+		Username:  "elastic",
+		Password:  "<YOUR_PASSWORD>",
+		CACert:    certificate,
+	}, elastic.ElasticDependencies{})
 
-	fmt.Println(joshua.FullName())
+	ec.SearchEngineInfo(context.Background())
 }

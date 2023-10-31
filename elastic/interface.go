@@ -1,4 +1,4 @@
-package elasticsearch
+package elastic
 
 import (
 	"context"
@@ -11,4 +11,5 @@ type SearchEngines interface {
 	InsertData(ctx context.Context, newUser model.User) error
 	UpdateData(ctx context.Context, updatedUser model.User) error
 	DeleteData(ctx context.Context, deleteTarget model.User) error
+	SearchEngineInfo(ctx context.Context)
 }
